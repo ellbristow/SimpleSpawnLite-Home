@@ -31,7 +31,7 @@ public class PlayerListener implements Listener {
         
         Player player = event.getPlayer();
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && event.getClickedBlock().getType().equals(Material.BED_BLOCK)) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && player.isSneaking() && event.getClickedBlock().getType().equals(Material.BED_BLOCK)) {
             if (plugin.getSetting("SetHomeWithBeds")) {
                 plugin.setBedLoc(player);
                 player.sendMessage(ChatColor.GOLD + "Your home has been set to this bed location!");

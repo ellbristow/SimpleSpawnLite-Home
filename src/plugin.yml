@@ -19,7 +19,7 @@ commands:
   removehome:
     description: Delete a home location
     usage: /removehome [Home Name]
-    aliases: [remhome, delhome]
+    aliases: [remhome, delhome, sremovehome, sremhome, sdelhome]
 permissions:
   simplespawn.home.*:
     description: Access to all SimpleSpawn commands

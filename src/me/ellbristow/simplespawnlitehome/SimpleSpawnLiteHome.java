@@ -97,7 +97,13 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
                 ss.simpleTeleport(player, homeLoc);
                 return true;
             }
-        } else if (commandLabel.equalsIgnoreCase("removehome")) {
+        } else if (
+                commandLabel.equalsIgnoreCase("removehome")
+                || commandLabel.equalsIgnoreCase("sremovehome")
+                || commandLabel.equalsIgnoreCase("remhome")
+                || commandLabel.equalsIgnoreCase("sremhome")
+                || commandLabel.equalsIgnoreCase("delhome")
+                || commandLabel.equalsIgnoreCase("sdelhome") ) {
             if (args.length == 0) {
                 if (!player.hasPermission("simplespawn.home.remove")) {
                     player.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
