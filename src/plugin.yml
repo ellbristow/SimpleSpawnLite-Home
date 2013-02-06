@@ -1,0 +1,41 @@
+name: SimpleSpawnLite-Home
+main: me.ellbristow.simplespawnlitehome.SimpleSpawnLiteHome
+version: 1.0.0
+database: true
+author: ellbristow
+depend: [SimpleSpawnLite-Core]
+dev-url: http://dev.bukkit.org/server-mods/simplespawnlitehome
+description: >
+             Addon for other SimpleSpawnLite. Allows the setting of Home spawn locations
+commands:
+  sethome:
+    description: Set home location
+    usage: /sethome [Home Name]
+    aliases: [ssethome]
+  home:
+    description: Teleport to home location
+    usage: /home [Home Name]
+    aliases: [shome]
+  removehome:
+    description: Delete a home location
+    usage: /removehome [Home Name]
+    aliases: [remhome, delhome]
+permissions:
+  simplespawn.home.*:
+    description: Access to all SimpleSpawn commands
+    children:
+      simplespawn.home: true
+      simplespawn.home.others: true
+      simplespawn.sethome: true
+  simplespawn.home:
+    default: op
+    description: Access to /home
+  simplespawn.home.others:
+    default: op
+    description: Can teleport to other players' /home locations
+  simplespawn.sethome:
+    default: op
+    description: Access to /sethome
+  simplespawn.sethome.others:
+    default: op
+    description: Access to /sethome for other players
