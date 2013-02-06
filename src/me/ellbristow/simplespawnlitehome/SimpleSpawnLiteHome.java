@@ -5,7 +5,6 @@ import me.ellbristow.simplespawnlitecore.LocationType;
 import me.ellbristow.simplespawnlitecore.SimpleSpawnLiteCore;
 import me.ellbristow.simplespawnlitecore.events.SimpleSpawnChangeLocationEvent;
 import me.ellbristow.simplespawnlitecore.events.SimpleSpawnRemoveLocationEvent;
-import me.ellbristow.simplespawnlitecore.utils.SQLBridge;
 import me.ellbristow.simplespawnlitehome.listeners.PlayerListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,7 +21,6 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
     private boolean setHomeWithBeds = false;
     private FileConfiguration config;
     private SimpleSpawnLiteCore ss;
-    private SQLBridge sql;
     private String[] homeColumns = {"player", "world", "x", "y", "z", "yaw", "pitch"};
     private String[] homeDims = {"TEXT NOT NULL PRIMARY KEY", "TEXT NOT NULL", "DOUBLE NOT NULL DEFAULT 0", "DOUBLE NOT NULL DEFAULT 0", "DOUBLE NOT NULL DEFAULT 0", "FLOAT NOT NULL DEFAULT 0", "FLOAT NOT NULL DEFAULT 0"};
     
@@ -153,7 +151,7 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
         double z = homeLoc.getZ();
         float yaw = homeLoc.getYaw();
         float pitch = homeLoc.getPitch();
-        sql.query("INSERT OR REPLACE INTO PlayerHomes (player, world, x, y, z, yaw, pitch) VALUES ('" + player.getName() + "', '" + world + "', " + x + ", " + y + ", " + z + ", " + yaw + ", " + pitch + ")");
+        ss.sql.query("INSERT OR REPLACE INTO PlayerHomes (player, world, x, y, z, yaw, pitch) VALUES ('" + player.getName() + "', '" + world + "', " + x + ", " + y + ", " + z + ", " + yaw + ", " + pitch + ")");
     }
 
     private void setOtherHomeLoc(OfflinePlayer target, Player player) {
@@ -166,11 +164,11 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
         double z = homeLoc.getZ();
         float yaw = homeLoc.getYaw();
         float pitch = homeLoc.getPitch();
-        sql.query("INSERT OR REPLACE INTO PlayerHomes (player, world, x, y, z, yaw, pitch) VALUES ('" + target.getName() + "', '" + world + "', " + x + ", " + y + ", " + z + ", " + yaw + ", " + pitch + ")");
+        ss.sql.query("INSERT OR REPLACE INTO PlayerHomes (player, world, x, y, z, yaw, pitch) VALUES ('" + target.getName() + "', '" + world + "', " + x + ", " + y + ", " + z + ", " + yaw + ", " + pitch + ")");
     }
     
     public Location getHomeLoc(String playerName) {
-        HashMap<Integer, HashMap<String, Object>> result = sql.select("world, x, y, z, yaw, pitch", "PlayerHomes", "player = '" + playerName + "'", null, null);
+        HashMap<Integer, HashMap<String, Object>> result = ss.sql.select("world, x, y, z, yaw, pitch", "PlayerHomes", "player = '" + playerName + "'", null, null);
         Location location = null;
         if (result == null || result.isEmpty()) {
             // if you haven't used /sethome - first home is your bed
@@ -209,7 +207,7 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
     private void removeHome(String playerName) {
         SimpleSpawnRemoveLocationEvent e = new SimpleSpawnRemoveLocationEvent(playerName, LocationType.HOME);
         getServer().getPluginManager().callEvent(e);
-        sql.query("DELETE FROM PlayerHomes WHERE player='" + playerName + "' ");
+        ss.sql.query("DELETE FROM PlayerHomes WHERE player='" + playerName + "' ");
     }
     
     public boolean getSetting(String setting) {
@@ -224,13 +222,13 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        sql.close();
+        ss.sql.close();
     }
 
     @Override
     public void onEnable() {
         
-        ss = (SimpleSpawnLiteCore)getServer().getPluginManager().getPlugin("SimpleSpawnLite-Core");
+        ss = SimpleSpawnLiteCore.getPluginLink();
         
         config = ss.getConfig();
         
@@ -241,10 +239,8 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
         
         getServer().getPluginManager().registerEvents(new PlayerListener(plugin), plugin);
         
-        sql = ss.getSQL();
-        
-        if (!sql.checkTable("PlayerHomes")) {
-            sql.createTable("PlayerHomes", homeColumns, homeDims);
+        if (!ss.sql.checkTable("PlayerHomes")) {
+            ss.sql.createTable("PlayerHomes", homeColumns, homeDims);
         }
         
     }
