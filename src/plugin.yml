@@ -1,6 +1,6 @@
 name: SimpleSpawnLite-Home
 main: me.ellbristow.simplespawnlitehome.SimpleSpawnLiteHome
-version: 1.0.0
+version: 1.0.1
 database: true
 author: ellbristow
 depend: [SimpleSpawnLite-Core]
@@ -24,18 +24,27 @@ permissions:
   simplespawn.home.*:
     description: Access to all SimpleSpawn commands
     children:
-      simplespawn.home: true
-      simplespawn.home.others: true
-      simplespawn.sethome: true
+      simplespawn.home.use: true
+      simplespawn.home.use.others: true
+      simplespawn.home.set: true
+      simplespawn.home.set.others: true
+      simplespawn.home.remove: true
+      simplespawn.home.remove.others: true
   simplespawn.home:
     default: op
     description: Access to /home
   simplespawn.home.others:
     default: op
     description: Can teleport to other players' /home locations
-  simplespawn.sethome:
+  simplespawn.home.set:
     default: op
     description: Access to /sethome
-  simplespawn.sethome.others:
+  simplespawn.home.set.others:
     default: op
     description: Access to /sethome for other players
+  simplespawn.home.remove:
+    default: op
+    description: Access to /removehome
+  simplespawn.home.remove.others:
+    default: op
+    description: Access to /removehome for other players
