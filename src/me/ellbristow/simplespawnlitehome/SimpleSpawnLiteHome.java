@@ -71,7 +71,7 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
                     return false;
                 }
                 Location homeLoc = getHomeLoc(player);
-                ss.simpleTeleport(player, homeLoc);
+                ss.simpleTeleport(player, homeLoc, LocationType.HOME);
                 return true;
             } else if (args.length == 1) {
                 if (!player.hasPermission("simplespawn.home.use.others")) {
@@ -92,7 +92,7 @@ public class SimpleSpawnLiteHome extends JavaPlugin {
                     player.sendMessage(ChatColor.RED + "Can't find " + ChatColor.WHITE + args[0] + ChatColor.RED + "'s home or bed!");
                     return false;
                 }
-                ss.simpleTeleport(player, homeLoc);
+                ss.simpleTeleport(player, homeLoc, LocationType.HOME);
                 return true;
             }
         } else if (
