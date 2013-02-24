@@ -6,7 +6,7 @@ author: ellbristow
 depend: [SimpleSpawnLite-Core]
 dev-url: http://dev.bukkit.org/server-mods/simplespawnlitehome
 description: >
-             Addon for other SimpleSpawnLite. Allows the setting of Home spawn locations
+             Addon for SimpleSpawnLite. Allows the setting of Home spawn locations
 commands:
   sethome:
     description: Set home location
